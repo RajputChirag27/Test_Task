@@ -1,0 +1,25 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+/* 
+body {
+    overflow-x: hidden; 
+    overflow-y: auto; 
+} */
+
+.nav-item{
+    text-decoration: none;
+    color: white !important;
+    margin-right: 1.52rem;
+}
+
+.hidden{
+    display: none;
+}
+
+#result-table_wrapper > div.row.mt-2.justify-content-md-center{
+    overflow-y: hidden !important;
+}
