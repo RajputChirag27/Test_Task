@@ -144,6 +144,7 @@ const deleteRow = (e) => {
 }
 
 const addChildRow = (e) => {
+    
     var tr = $(e).parents('tr');
     var row = table.row(tr);
 

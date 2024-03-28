@@ -23,3 +23,8 @@ body {
 #result-table_wrapper > div.row.mt-2.justify-content-md-center{
     overflow-y: hidden !important;
 }
+
+#result-table_wrapper > div:nth-child(3) > div.col-md-auto.ms-auto > div > ul > li.dt-paging-button.page-item.active > a{
+    background-color: green !important;
+    border-color: green !important;
+}
