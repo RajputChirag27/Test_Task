@@ -5,8 +5,7 @@ let dataArr = [];
 
 $(document).ready(() => {
     // Initializing datatable
-    table = new DataTable('#result-table');
-    let registerBtn = document.getElementById('register-btn');
+    table = $("#result-table").DataTable();
     checkRow();
 
     $("#register-btn").on('click', function (e) {
@@ -14,17 +13,26 @@ $(document).ready(() => {
         let eduForm = document.getElementById("edu-table-form")
         let formData = new FormData(eduForm);
         data = Object.fromEntries(formData);
-        // dataArr = Array.from(formData);
-        console.log(dataArr);
+
+        const dobArr = data.dob.toString().split('-');
+        console.log(dobArr)
 
 
+        const nameValidator = nameValidation(data.fname, data.lname);
+        const emailValidator = emailValidation(data.email)
+        const dobValidator = dobValidation(Number(dobArr[0]), Number(dobArr[1]));
+        if (!nameValidator || !emailValidator || !dobValidator) {
+            $('#formValidId').removeClass('hidden');
+            e.preventDefault();
+            return;
+        }
 
-        console.log(data);
-
+        $('#formValidId').addClass('hidden');
         $('#collTableDiv').removeClass("hidden");
+
         table.row.add(
             [
-                `<button class="btn btn-success" type="button" onclick="addRow(this)">Add</button>`,
+                `<button class="btn btn-success" type="button" onclick="addRow(this)">+</button>`,
                 data.fname,
                 data.lname,
                 data.dob,
@@ -33,7 +41,35 @@ $(document).ready(() => {
                 `<button class="btn btn-success edit-btn" type="button" onclick="editRow(this)">Edit</button>
                 <button class="btn btn-danger" type="button" onclick="deleteRow(this)">Delete</button>` ,
             ]
-        ).draw()
+        ).child([
+            `
+                <tr>
+                <th>Degree&nbsp;</th>
+                <th>School&nbsp;</th>
+                <th>StartYear&nbsp;</th>
+                <th>PassoutYear&nbsp;</th>
+                <th>Percentage&nbsp;</th>
+                <th>Backlog&nbsp;</th>
+                </tr>
+                <tr> <td>${data.degree}&nbsp;</td>
+                <td>${data.college}&nbsp;</td>
+                <td>${data.start}&nbsp;</td>
+                <td>${data.passout}&nbsp;</td>
+                <td>${data.percentage}&nbsp;</td>
+                <td>${data.backlog}&nbsp;</td>
+
+                </tr>
+
+                <tr> <td>${data.degree1}&nbsp;</td>
+                <td>${data.college1}&nbsp;</td>
+                <td>${data.start1}&nbsp;</td>
+                <td>${data.passout1}&nbsp;</td>
+                <td>${data.percentage1}&nbsp;</td>
+                <td>${data.backlog1}&nbsp;</td>
+
+                </tr>
+            `
+        ]).draw()
         $("#myModal").modal('hide');
         $("#edu-table-form")[0].reset()
     });
@@ -91,6 +127,8 @@ const editRow = async (button) => {
     let email = $(tr).find('td:eq(4)').text();
     let address = $(tr).find('td:eq(5)').text();
 
+
+
     // Class Handling
     $("#register-btn").addClass('hidden');
     $("#update-btn").removeClass('hidden');
@@ -117,6 +155,13 @@ const editRow = async (button) => {
         $("#register-btn").removeClass('hidden');
         $("#update-btn").addClass('hidden');
     });
+
+    $('#close-btn , #btn-close').off('click').on('click', function () {
+        $("#edu-table-form")[0].reset();
+        $("#register-btn").removeClass('hidden');
+        $("#update-btn").addClass('hidden');
+    });
+
 }
 
 // Child Row Function
@@ -130,48 +175,18 @@ const addRow = (e) => {
         tr.removeClass('shown');
     }
     else {
-        if(row.child() && row.child().length){
+        if (row.child() && row.child().length) {
             row.child.show();
             tr.addClass('shown');
         }
-        else{
-        row.child(format()).show();
-        tr.addClass('shown');
+        else {
+            row.child().show();
+            tr.addClass('shown');
+        }
     }
 }
-}
 
-// Format Function of child Row
 
-const format = () => {
-    return `
-<tr>
-<th>Degree&nbsp;</th>
-<th>School&nbsp;</th>
-<th>StartYear&nbsp;</th>
-<th>PassoutYear&nbsp;</th>
-<th>Percentage&nbsp;</th>
-<th>Backlog&nbsp;</th>
-</tr>
-<tr> <td>${data.degree}&nbsp;</td>
-<td>${data.college}&nbsp;</td>
-<td>${data.start}&nbsp;</td>
-<td>${data.passout}&nbsp;</td>
-<td>${data.percentage}&nbsp;</td>
-<td>${data.backlog}&nbsp;</td>
-
-</tr>
-
-<tr> <td>${data.degree1}&nbsp;</td>
-<td>${data.college1}&nbsp;</td>
-<td>${data.start1}&nbsp;</td>
-<td>${data.passout1}&nbsp;</td>
-<td>${data.percentage1}&nbsp;</td>
-<td>${data.backlog1}&nbsp;</td>
-
-</tr>
-`
-}
 
 
 // Row Checking Function
@@ -188,3 +203,64 @@ const checkRow = () => {
 }
 
 // Form Validation
+
+// Name Validation
+const nameValidation = (fname, lname) => {
+    const regexName = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+    if (regexName.test(fname) && regexName.test(lname)) {
+        $('#fnameHelpId').addClass('hidden')
+        $('#lnameHelpId').addClass('hidden')
+        return true;
+    }
+    else {
+        if (!regexName.test(fname)) {
+            $('#fnameHelpId').removeClass('hidden')
+        }
+        if (!regexName.test(lname)) {
+            $('#lnameHelpId').removeClass('hidden')
+        }
+        return false;
+    }
+
+}
+
+
+// EmailValidation
+const emailValidation = (email) => {
+    const regexName = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexName.test(email)) {
+        $('#emailHelpId').removeClass('hidden');
+        console.log('Email is invalid!')
+        return false;
+    } else {
+        $('#emailHelpId').addClass('hidden');
+        console.log('Email is valid');
+        return true;
+    }
+
+}
+
+
+// Dob Validation
+
+const dobValidation = (dob, month) => {
+    let currYear = Number(new Date().getFullYear().toString());
+    let currMonth = Number(new Date().getMonth()) + 1;
+    console.log(currYear);
+
+    if (month < currMonth) {
+        currYear++;
+    }
+
+    if (currYear - dob >= 18) {
+        $('#dobHelpId').addClass('hidden');
+        return true;
+    }
+    else {
+        $('#dobHelpId').removeClass('hidden');
+        return false;
+    }
+
+
+}
+

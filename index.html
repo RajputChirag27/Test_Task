@@ -8,15 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <!-- FontAwesome 6.2.0 CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./assets/FontAwesome/all.min.css">
+    <!-- Datatables CSS  -->
+    <link rel="stylesheet" href="./assets/Datatables/css/dataTables.dataTables.min.css">
 
-        <link href="https://cdn.datatables.net/v/bs5/dt-2.0.3/datatables.min.css" rel="stylesheet">
 
 </head>
 
@@ -47,42 +45,52 @@
 
     <main>
         <div class="container-fluid mt-5">
-            <div class="container mt-5 d-flex justify-content-center align-items-center" >
-                <button class="btn btn-success" data-bs-toggle="modal"
-                data-bs-target="#myModal">Register</button>
+            <div class="container mt-5 d-flex justify-content-center align-items-center">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">Register</button>
             </div>
-            <div class="modal modal-xl fade" id="myModal">
+            <div class="modal modal-xl fade" id="myModal" data-bs-backdrop="static">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header d-flex flex-column">
                             <h3 class="modal-title">Student Registration</h3>
-                            <button class="btn btn-close" data-bs-dismiss="modal"></button>
+                            <h4 id="formValidId" class="form-text text-danger hidden">Please Fill the form correctly</h4>
+                            <button class="btn btn-close" data-bs-dismiss="modal" id="btn-close"></button>
                         </div>
                         <form action="#" id="edu-table-form">
                             <div class="modal-body">
+                                
                                 <input type="hidden" name="hidden_field" value="hidden_value" id="hidden-id">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control fname" id="fname" name="fname" placeholder="First Name" required>
+                                    <input type="text" class="form-control fname" id="fname" name="fname"
+                                        placeholder="First Name" required>
                                     <label for="fname">First Name</label>
+                                    <small id="fnameHelpId" class="form-text text-danger hidden">Please Enter Valid Name</small>
                                 </div>
-                        
+
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control lname" id="lname" name="lname" placeholder="Last Name" required>
+                                    <input type="text" class="form-control lname" id="lname" name="lname"
+                                        placeholder="Last Name" required>
                                     <label for="lname">Last Name</label>
+                                    <small id="lnameHelpId" class="form-text text-danger hidden">Please Enter Valid Name</small>
                                 </div>
-                        
+
                                 <div class="form-floating mb-3">
                                     <input type="date" class="form-control dob" id="dob" name="dob" required>
                                     <label for="dob">Date of Birth:</label>
+                                    <small id="dobHelpId" class="form-text text-danger hidden">You Must be 18 years old</small>
                                 </div>
-                        
+
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control email" id="email" name="email" placeholder="Email" required>
+                                    <input type="email" class="form-control email" id="email" name="email"
+                                        placeholder="Email" required>
                                     <label for="email">Email</label>
+                                    <small id="emailHelpId" class="form-text text-danger hidden">Please Enter Valid Email</small>
                                 </div>
-                        
+
                                 <div class="form-floating">
-                                    <textarea name="address" id="address" class="form-control address" placeholder="Enter your address" style="height: 100px;" required required></textarea>
+                                    <textarea name="address" id="address" class="form-control address"
+                                        placeholder="Enter your address" style="height: 100px;" required
+                                        required></textarea>
                                     <label for="address" class="form-label">Address:</label>
                                 </div>
                                 <div class="container mt-5 d-flex justify-content-between">
@@ -101,68 +109,82 @@
                                                 <th>Passout&nbsp;Year</th>
                                                 <th>Percentage</th>
                                                 <th>Backlog</th>
-                                                 <th>Delete</th>
+                                                <th>Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <input type="text" name="degree" class="form-control" placeholder="Degree" required>
+                                                    <input type="text" name="degree" id="degree" class="form-control"
+                                                        placeholder="Degree" required>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="college" class="form-control" placeholder="School" required>
+                                                    <input type="text" name="college" class="form-control"
+                                                        placeholder="School" required>
                                                 </td>
                                                 <td>
                                                     <input type="month" name="start" class="form-control" required>
+                                                    
                                                 </td>
                                                 <td>
                                                     <input type="month" name="passout" class="form-control" required>
+                                                    
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="percentage" class="form-control" placeholder="Don't use %" required>
+                                                    <input type="number" name="percentage" class="form-control"
+                                                        placeholder="Don't use %" required>
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="backlog" class="form-control" placeholder="Backlogs" required>
+                                                    <input type="number" name="backlog" class="form-control"
+                                                        placeholder="Backlogs" required>
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-danger" name="remove-btn-1" disabled>-</button>
+                                                    <button class="btn btn-danger" name="remove-btn-1"
+                                                        disabled>-</button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <input type="text" name="degree1" class="form-control" placeholder="Degree" required>
+                                                    <input type="text" name="degree1" class="form-control"
+                                                        placeholder="Degree" required>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="college1" class="form-control" placeholder="School" required>
+                                                    <input type="text" name="college1" class="form-control"
+                                                        placeholder="School" required>
                                                 </td>
                                                 <td>
                                                     <input type="month" name="start1" class="form-control" required>
+                                                    
                                                 </td>
                                                 <td>
                                                     <input type="month" name="passout1" class="form-control" required>
+                                                    
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="percentage1" class="form-control" placeholder="Don't use %" required>
+                                                    <input type="number" name="percentage1" class="form-control"
+                                                        placeholder="Don't use %" required>
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="backlog1" class="form-control" placeholder="Backlogs" required>
+                                                    <input type="number" name="backlog1" class="form-control"
+                                                        placeholder="Backlogs" required>
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-danger" name="remove-btn-2" disabled>-</button>
+                                                    <button class="btn btn-danger" name="remove-btn-2"
+                                                        disabled>-</button>
                                                 </td>
                                             </tr>
                                         </tbody>
-                                        
+
                                     </table>
                                 </div>
 
-                             
+
 
 
                             </div>
 
                             <div class="modal-footer">
-                                <button class="btn btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                                <button class="btn btn-danger" data-bs-dismiss="modal" type="button" id="close-btn">Close</button>
                                 <button class="btn btn-success" type="submit" id="register-btn">Register</button>
                                 <button class="btn btn-success hidden" type="button" id="update-btn">Update</button>
                             </div>
@@ -173,25 +195,25 @@
         </div>
 
         <div class="result-container container hidden " id="collTableDiv">
-         
-                <table class="table table-striped table-dark w-100" id="result-table"> 
-                    <thead>
-                        <tr>
-                            <th> </th>
-                            <th>First&nbsp;Name</th>
-                            <th>Last&nbsp;Name</th>
-                            <th>Date&nbsp;of&nbsp;Birth</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>Edit/Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
 
-                </table>
-            
+            <table class="table table-striped table-dark w-100" id="result-table">
+                <thead>
+                    <tr>
+                        <th> </th>
+                        <th>First&nbsp;Name</th>
+                        <th>Last&nbsp;Name</th>
+                        <th>Date&nbsp;of&nbsp;Birth</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Edit/Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+
         </div>
     </main>
 
@@ -200,22 +222,17 @@
 
     </footer>
     <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
+    <script src="./assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Jquery Libraries  -->
+    <script src="./assets/jquery/jquery-3.7.1.slim.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-        crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="./assets/Datatables/js/dataTables.min.js"></script>
 
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.3/datatables.min.js"></script>
- 
     <script src="./assets/js/script1.js"></script>
 
 
-    
+
 </body>
 
 </html>
-
